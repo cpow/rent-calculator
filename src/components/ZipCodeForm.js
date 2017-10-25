@@ -13,7 +13,10 @@ class ZipCodeForm extends Component {
     // this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
 
-  handleOnSubmit = () => {
+  handleOnSubmit = (event) => {
+    // uhoh this actually does not prevent the default form from being
+    // submitted. we need to prevent default first.
+    event.preventDefault();
     console.log("snakes");
   }
 
