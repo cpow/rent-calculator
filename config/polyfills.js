@@ -18,4 +18,3 @@ Object.assign = require('object-assign');
 global.requestAnimationFrame = (callback) => {
     setTimeout(callback, 0);
 };
-
