@@ -5,23 +5,30 @@ const { Component } = React;
 class ZipCodeForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {zipCode: ''};
-
-    // Explain why these need to be bound:
-    // https://facebook.github.io/react/docs/handling-events.html
-    // this.handleOnChange = this.handleOnChange.bind(this);
-    // this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.state = {zipCode: '', isValid: false};
   }
 
   handleOnSubmit = (event) => {
-    // uhoh this actually does not prevent the default form from being
-    // submitted. we need to prevent default first.
     event.preventDefault();
-    console.log("snakes");
   }
 
   handleOnChange = (event) => {
-    this.setState({zipCode: event.target.value});
+    let zipCode = event.target.value;
+    this.setState({zipCode});
+    this.setState({isValid: this.isValidZipCode(zipCode)});
+  }
+
+  isValidZipCode(zipCode) {
+    return this.isAllNumbers(zipCode) && zipCode.length === 5
+  }
+
+  isAllNumbers(zipCode) {
+    for (let character of zipCode) {
+      if (!Number.isInteger(Number.parseInt(character, 10))){
+        return false;
+      }
+    }
+    return true;
   }
 
   render() {
@@ -35,7 +42,10 @@ class ZipCodeForm extends Component {
             onChange={this.handleOnChange} />
         </label>
 
-        <input type="submit" value="Submit"/>
+        <input
+          type="submit"
+          value="Submit"
+          disabled={!(this.state.isValid)}/>
       </form>
     )
   }
